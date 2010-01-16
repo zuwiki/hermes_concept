@@ -1,0 +1,4 @@
+*.pyc
+*.pyo
+.autonose-depends.pickle
+*.swp
