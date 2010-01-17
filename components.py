@@ -10,6 +10,7 @@ class Page(object):
         stdout.'''
         return self.script.execute(self) if self.script else False
 
+
 class Script(object):
 
     def __init__(self, body=''):
@@ -42,5 +43,9 @@ class Script(object):
             return (False, error)
         else:
             return True
+
+
+class Dispatcher(object):
+    pass
 
 
