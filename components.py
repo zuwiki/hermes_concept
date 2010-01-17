@@ -26,7 +26,10 @@ class Script(object):
 
     def execute(self, page=None):
         '''Calls __execute, which eval()'s the script's code object. `page` will
-        be available as a local variable.'''
+        be available as a local variable.
+        
+        Returns True if the script executed without problems, and a tuple of the
+        form (False, error) if the script raises an Exception.'''
 
         return Script.__execute(self.code, page)
 
@@ -36,7 +39,7 @@ class Script(object):
         try:
             eval(code, None, {'page': page})
         except Exception as error:
-            return (False, error, code)
+            return (False, error)
         else:
             return True
 

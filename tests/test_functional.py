@@ -1,4 +1,5 @@
 from components import Script, Page
+from nose.tools import raises
 
 class test_associations():
 
@@ -17,18 +18,14 @@ class test_executions():
     def setUp(self):
         self.page = Page('This page only contains text content.')
 
-    def test_page_should_be_runnable(self):
+    def test_page_should_be_runnable_even_without_a_script(self):
         assert self.page.run()
 
-    def test_script_should_be_executed_when_page_is_run(self):
-        '''I don't really know how to test this yet, to be honest, except
-        perhaps by testing that the page content gets changed, which we do
-        anyway.'''
+    def test_should_puke_when_scripts_error(self):
+        self.page.script = Script('assert False == True')
+        assert False in self.page.run()
 
     def test_script_should_have_access_to_page(self):
-        '''Note that the assertion in the script body doesn't actually run, or
-        if it does it doesn't puke when the assertion is invalid. Not sure
-        why yet. Oh how the list of problems keeps growing.'''
         script_body = 'assert page.content == "This page only contains text content."'
         self.page.script = Script(script_body)
         assert self.page.run() == True
