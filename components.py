@@ -46,6 +46,19 @@ class Script(object):
 
 
 class Dispatcher(object):
-    pass
+    
+    def __init__(self):
+        self.pages = {}
+
+    def load(self, text, jid):
+        self.pages[jid] = Dispatcher.__parse(text)
+
+    @staticmethod
+    def __parse(text):
+        text = text.split('\n[--endscript--]\n', 1)
+        if len(text) > 1:
+            return Page(text[1], Script(text[0]))
+        else:
+            return Page(text[0])
 
 
