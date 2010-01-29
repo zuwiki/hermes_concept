@@ -32,13 +32,12 @@ class Script(object):
         Returns True if the script executed without problems, and a tuple of the
         form (False, error) if the script raises an Exception.'''
 
-        return Script.__execute(self.code, page)
+        return self.__execute(self.code, page)
 
-    @staticmethod
-    def __execute(code, page):
+    def __execute(self, code, page):
         '''Wrapper for script execution for when it needs more padding later.'''
         try:
-            eval(code, None, {'page': page})
+            eval(code, None, {'page': page, 'self': self})
         except Exception as error:
             return (False, error)
         else:

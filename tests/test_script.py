@@ -29,3 +29,13 @@ class test_Script_execute():
             'assert test_variable == "I am testing!"')
         assert script.execute()
 
+    def test_should_be_able_to_set_method_on_self(self):
+        script = Script(
+            'def my_print(str):\n' \
+            '    return str\n\n' \
+            'self.my_print = my_print')
+        script.execute()
+        assert script.my_print
+        assert script.my_print('test') == 'test'
+
+
