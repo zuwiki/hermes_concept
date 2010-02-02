@@ -1,3 +1,5 @@
+import sleekxmpp as xmpp
+
 class Page(object):
 
     def __init__(self, content='', script=None):
@@ -60,4 +62,9 @@ class Dispatcher(object):
         else:
             return Page(text[0])
 
+    
+class Client(xmpp.ClientXMPP):
+
+    def __init__(self, jid, password, endpoint=tuple()):
+        xmpp.ClientXMPP.__init__(self, jid, password)
 
