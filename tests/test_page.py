@@ -1,5 +1,6 @@
 from components import Page, Script
 
+
 class test_EmptyPage():
 
     def setUp(self):
@@ -7,6 +8,7 @@ class test_EmptyPage():
 
     def test_should_have_no_content(self):
         assert self.page.content == ''
+
 
 class test_Page():
 

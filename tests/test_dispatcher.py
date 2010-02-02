@@ -1,5 +1,6 @@
 from components import Dispatcher, Page
 
+
 class test_associations():
     
     def setUp(self):
@@ -11,6 +12,7 @@ class test_associations():
         self.dispatcher.pages[jid] = page
         assert jid in self.dispatcher.pages
         assert self.dispatcher.pages[jid] == page
+
 
 class test_loading_pages():
 
