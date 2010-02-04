@@ -50,3 +50,17 @@ class test_connection():
         dispatcher = Dispatcher()
         assert dispatcher.connect() == False
 
+
+class test_handlers():
+
+    def setUp(self):
+        self.jid = 'testing@zuwiki.net/HermesClient'
+        self.password = 'test_password'
+        self.endpoint = ('zuwiki.net', 5222)
+        self.dispatcher = Dispatcher(self.jid, self.password, self.endpoint)
+
+    def test_should_setup_handlers_for_pages(self):
+        self.dispatcher.load('print("test")\n\n[--endscript--]\n\nTestcontent',
+                            'zuwiki@zuwiki.net')
+        assert len(self.dispatcher.event_handlers) == 1
+

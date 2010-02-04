@@ -45,23 +45,44 @@ class Script(object):
         else:
             return True
 
+    def handle(stanza):
+        '''This is a placeholder method meant to be replaced by scripts, as this
+        method is called when this script's originating JID sends any stanza'''
+        print(repr(stanza))
+
 
 class Dispatcher(xmpp.ClientXMPP):
     
     def __init__(self, jid=None, password=None, endpoint=tuple()):
         self.pages = {}
         self.endpoint = endpoint
+        self.networked = False
         if jid and password:
             xmpp.ClientXMPP.__init__(self, jid, password)
+            self.networked = True
+            self.add_event_handler("session_start", self.start, threaded=False)
+            for plug in ['0004', '0030', '0060', '0199']:
+                self.registerPlugin('xep_%s' % plug)
+
+    def start(self, event):
+        self.getRoster()
+        self.sendPresence(ptype='chat')
+        
+        while True:
+            pass
 
 
     def load(self, text, jid):
         self.pages[jid] = Dispatcher.__parse(text)
+        if self.networked:
+            self.registerHandler(xmpp.Callback(
+                'Stanzas for %s' % jid,
+                xmpp.MatchXMLMask("<message from='%s' />" % jid),
+                self.pages[jid].script.handle,
+                thread=False))
 
     def connect(self):
-        # This is a pretty sketchy way to check that the ClientXMPP init has
-        # been completed.
-        if 'state' in self.__dict__:
+        if self.networked:
             return xmpp.ClientXMPP.connect(self, self.endpoint)
         else:
             return False
