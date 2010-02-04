@@ -50,12 +50,21 @@ class Dispatcher(xmpp.ClientXMPP):
     
     def __init__(self, jid=None, password=None, endpoint=tuple()):
         self.pages = {}
+        self.endpoint = endpoint
         if jid and password:
             xmpp.ClientXMPP.__init__(self, jid, password)
 
 
     def load(self, text, jid):
         self.pages[jid] = Dispatcher.__parse(text)
+
+    def connect(self):
+        # This is a pretty sketchy way to check that the ClientXMPP init has
+        # been completed.
+        if 'state' in self.__dict__:
+            return xmpp.ClientXMPP.connect(self, self.endpoint)
+        else:
+            return False
 
     @staticmethod
     def __parse(text):

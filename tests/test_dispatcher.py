@@ -43,9 +43,10 @@ class test_connection():
     
     def test_should_connect_with_jid_and_password(self):
         assert self.dispatcher.fulljid == self.jid
-        self.dispatcher.connect()
+        assert self.dispatcher.connect()
         assert self.dispatcher.state['connected']
 
     def test_should_fail_peacefully_without_jid_or_password(self):
-        assert False, "Not implemented"
+        dispatcher = Dispatcher()
+        assert dispatcher.connect() == False
 
