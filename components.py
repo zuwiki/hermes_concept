@@ -46,10 +46,13 @@ class Script(object):
             return True
 
 
-class Dispatcher(object):
+class Dispatcher(xmpp.ClientXMPP):
     
-    def __init__(self):
+    def __init__(self, jid=None, password=None, endpoint=tuple()):
         self.pages = {}
+        if jid and password:
+            xmpp.ClientXMPP.__init__(self, jid, password)
+
 
     def load(self, text, jid):
         self.pages[jid] = Dispatcher.__parse(text)
@@ -61,10 +64,4 @@ class Dispatcher(object):
             return Page(text[1], Script(text[0]))
         else:
             return Page(text[0])
-
-    
-class Client(xmpp.ClientXMPP):
-
-    def __init__(self, jid, password, endpoint=tuple()):
-        xmpp.ClientXMPP.__init__(self, jid, password)
 

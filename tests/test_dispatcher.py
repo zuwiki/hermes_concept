@@ -32,3 +32,20 @@ class test_loading_pages():
         assert self.dispatcher.pages[self.jid].content == self.text
         assert self.dispatcher.pages[self.jid].script.body == self.script
 
+
+class test_connection():
+
+    def setUp(self):
+        self.jid = 'test@zuwiki.net/HermesClient'
+        self.password = 'test_password'
+        self.endpoint = ('zuwiki.net', 5222)
+        self.dispatcher = Dispatcher(self.jid, self.password, self.endpoint)
+    
+    def test_should_connect_with_jid_and_password(self):
+        assert self.dispatcher.fulljid == self.jid
+        self.dispatcher.connect()
+        assert self.dispatcher.state['connected']
+
+    def test_should_fail_peacefully_without_jid_or_password(self):
+        assert False, "Not implemented"
+
